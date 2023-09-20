@@ -9,9 +9,9 @@ from torch.nn import BCELoss
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 
-from .client.dataset import load_dataset, preprocess_data, TransactionsDataset, preprocess_set
-from .client.net import Net
-from .metric import Metric
+from client.dataset import load_dataset, preprocess_data, TransactionsDataset, preprocess_set
+from client.net import Net
+from metric import Metric
 
 init_parameters = {
     'n_features': 30,

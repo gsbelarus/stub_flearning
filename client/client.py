@@ -6,16 +6,16 @@ from torch.utils.data import DataLoader
 
 from joint_ml._base_client import Client
 
-from .fl_typings import InitInstructions, SetWeightsInstructions, SetWeightsResult, GetWeightsInstructions, GetWeightsResult, TrainInstructions, \
+from ..fl_typings import SetWeightsInstructions, SetWeightsResult, GetWeightsInstructions, GetWeightsResult, TrainInstructions, \
     TrainResult, \
     EvaluateInstructions, EvaluateResult, Code, Status
-from .weights_transformation import ndarrays_to_weights, weights_to_ndarrays
-from .client.dataset import TransactionsDataset, get_train_test_datasets
-from .client.net import load_model
+from ..weights_transformation import ndarrays_to_weights, weights_to_ndarrays
+from .dataset import get_train_test_datasets
+from .net import load_model
 
 
 class AntiFraudClient(Client):
-    def __init__(self, init_ins: InitInstructions, dataset_path=None):
+    def __init__(self, init_ins, dataset_path=None):
         model = load_model(n_features=init_ins.config['n_features'], hidden_dim=init_ins.config['hidden_dim'])
         super().__init__(init_ins.id, model)
         if dataset_path != None:

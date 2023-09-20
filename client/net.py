@@ -1,9 +1,11 @@
 from collections import OrderedDict
+from typing import Any
 
 import torch
 import torch.nn as nn
+import numpy.typing as npt
 
-from federated_learning.core.utils import NDArrays
+NDArray = npt.NDArray[Any]
 
 
 class Net(nn.Module):

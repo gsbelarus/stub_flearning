@@ -4,13 +4,14 @@ from sklearn.metrics import roc_auc_score
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 
-from federated_learning.core.client import Client
-from federated_learning.core.utils.typing import InitInstructions, SetWeightsInstructions, SetWeightsResult, GetWeightsInstructions, GetWeightsResult, TrainInstructions, \
+from joint_ml._base_client import Client
+
+from .fl_typings import InitInstructions, SetWeightsInstructions, SetWeightsResult, GetWeightsInstructions, GetWeightsResult, TrainInstructions, \
     TrainResult, \
     EvaluateInstructions, EvaluateResult, Code, Status
-from federated_learning.core.utils.weights_transformation import ndarrays_to_weights, weights_to_ndarrays
-from federated_learning.examples.anti_fraud_fl.client.dataset import TransactionsDataset, get_train_test_datasets
-from federated_learning.examples.anti_fraud_fl.client.net import load_model
+from .weights_transformation import ndarrays_to_weights, weights_to_ndarrays
+from .client.dataset import TransactionsDataset, get_train_test_datasets
+from .client.net import load_model
 
 
 class AntiFraudClient(Client):

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import numpy.typing as npt
 
-NDArray = npt.NDArray[Any]
+NDArrays = npt.NDArray[Any]
 
 
 class Net(nn.Module):

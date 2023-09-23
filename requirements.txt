@@ -2,7 +2,7 @@ cmake==3.27.5
 filelock==3.12.4
 Jinja2==3.1.2
 joblib==1.3.2
-jointml-client==0.1.9
+jointml-client==0.1.93
 lit==16.0.6
 MarkupSafe==2.1.3
 mpmath==1.3.0

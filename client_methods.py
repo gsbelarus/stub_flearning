@@ -29,7 +29,7 @@ test_parameters = {
 }
 
 
-def load_model(n_features, hidden_dim) -> nn.Module:
+def load_model(n_features=30, hidden_dim=32) -> nn.Module:
     model = Net(n_features, hidden_dim)
     return model
 

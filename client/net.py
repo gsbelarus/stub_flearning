@@ -9,7 +9,7 @@ NDArrays = npt.NDArray[Any]
 
 
 class Net(nn.Module):
-    def __init__(self, n_features=30, hidden_dim=32):
+    def __init__(self, n_features, hidden_dim):
         super().__init__()
         self.relu_activation = nn.ReLU()
         self.sigmoid_activation = nn.Sigmoid()

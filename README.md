@@ -2,7 +2,7 @@
 
 model_parameters = {
     'n_features': 30,
-    'hidden_dim': 32
+    'hidden_dim': 16
 }
 
 train_parameters = {

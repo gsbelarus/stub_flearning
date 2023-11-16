@@ -13,7 +13,7 @@ from client.dataset import load_dataset, preprocess_data, TransactionsDataset, p
 from client.net import Net
 from metric import Metric
 
-init_parameters = {
+model_parameters = {
     'n_features': 30,
     'hidden_dim': 32
 }
@@ -130,3 +130,9 @@ def test(model: torch.nn.Module, test_set: torch.utils.data.Dataset, return_outp
         return ([test_loss_metric, test_roc_auc_score_metric], outputs)
     else:
         return ([test_loss_metric, test_roc_auc_score_metric])
+
+
+def get_prediction(model: torch.nn.Module, dataset_path: str) -> list:
+    test_set = get_dataset(dataset_path, with_split=False, test_size=1, shuffle=False)
+    metrics, output = test(model, test_set, return_output=True)
+    return output

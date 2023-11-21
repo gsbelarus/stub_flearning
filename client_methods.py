@@ -11,21 +11,22 @@ from torch.utils.data import DataLoader
 
 from client.dataset import load_dataset, preprocess_data, TransactionsDataset, preprocess_set
 from client.net import Net
-from metric import Metric
+from joint_ml import Metric
 
 model_parameters = {
     'n_features': 30,
     'hidden_dim': 32
 }
 
+dataset_parameters = {
+    'shuffle': True,
+    'test_size': 0.1
+}
+
 train_parameters = {
     'epochs': 15,
     'batch_size': 16,
     'lr': 0.0001
-}
-
-dataset_parameters = {
-    'shuffle': True
 }
 
 test_parameters = {
@@ -56,8 +57,8 @@ def get_dataset(dataset_path: str, with_split: bool, test_size: float, shuffle: 
         return test_set
 
 
-def train(model: torch.nn.Module, train_set: torch.utils.data.Dataset, epochs, batch_size, lr,
-          valid_set: torch.utils.data.Dataset = None) -> Tuple[List[Metric], torch.nn.Module]:
+def train(model: torch.nn.Module, train_set: torch.utils.data.Dataset, epochs: int, batch_size: int, lr: float) -> \
+Tuple[List[Metric], torch.nn.Module]:
     train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
 
     optimizer = AdamW(params=model.parameters(), lr=lr)
@@ -92,7 +93,7 @@ def train(model: torch.nn.Module, train_set: torch.utils.data.Dataset, epochs, b
 
 
 def test(model: torch.nn.Module, test_set: torch.utils.data.Dataset, return_output: bool) -> Union[
-    Tuple[List[Metric]], Tuple[List[Metric], list]]:
+    List[Metric], Tuple[List[Metric], list]]:
     test_loss = 0.0
     model.eval()
     loss_fn = BCELoss()
@@ -120,19 +121,14 @@ def test(model: torch.nn.Module, test_set: torch.utils.data.Dataset, return_outp
     test_loss_metric = Metric(name="test_loss")
     test_loss_metric.log_value(test_loss)
 
-    test_roc_auc_score = roc_auc_score(labels, np.array(outputs))
-
-    test_roc_auc_score_metric = Metric(name="test_roc_auc_score")
-    test_roc_auc_score_metric.log_value(test_roc_auc_score)
-
-
     if return_output:
-        return ([test_loss_metric, test_roc_auc_score_metric], outputs)
+        return [test_loss_metric], outputs
     else:
-        return ([test_loss_metric, test_roc_auc_score_metric])
-
+        return [test_loss_metric]
 
 def get_prediction(model: torch.nn.Module, dataset_path: str) -> list:
     test_set = get_dataset(dataset_path, with_split=False, test_size=1, shuffle=False)
+
     metrics, output = test(model, test_set, return_output=True)
+
     return output
